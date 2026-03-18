@@ -1,0 +1,31 @@
+aws_region              = "us-east-1"
+environment             = "production"
+db_identifier           = "tech-challenge-db"
+db_name                 = "tech_challenge"
+db_username             = "postgres"
+db_password             = "ChangeMe123!@#"
+db_engine_version       = "15.3"
+db_instance_class       = "db.t4g.medium"
+db_allocated_storage    = 100
+db_max_allocated_storage = 500
+db_storage_type         = "gp3"
+db_storage_iops         = 3000
+db_storage_throughput   = 125
+multi_az                = true
+backup_retention_period = 7
+backup_window           = "03:00-04:00"
+maintenance_window      = "sun:04:00-sun:05:00"
+enable_encryption       = true
+enable_enhanced_monitoring = true
+monitoring_interval     = 60
+vpc_id                  = "vpc-xxxxx"
+db_subnet_group_name    = "tech-challenge-db-subnet-group"
+private_subnet_ids      = ["subnet-xxxxx", "subnet-yyyyy", "subnet-zzzzz"]
+allowed_security_groups = ["sg-xxxxx"]
+skip_final_snapshot     = false
+
+tags = {
+  Environment = "production"
+  Project     = "tech-challenge"
+  ManagedBy   = "terraform"
+}
