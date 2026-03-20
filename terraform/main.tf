@@ -57,7 +57,7 @@ resource "aws_db_instance" "main" {
   auto_minor_version_upgrade   = true
   copy_tags_to_snapshot        = true
   skip_final_snapshot          = var.skip_final_snapshot
-  final_snapshot_identifier    = "${var.db_identifier}-final-snapshot-${formatdate("YYYY-MM-DD-hhmm", timestamp())}"
+  final_snapshot_identifier    = var.skip_final_snapshot ? null : "${var.db_identifier}-final-snapshot"
 
   # Security
   storage_encrypted = var.enable_encryption
@@ -68,13 +68,12 @@ resource "aws_db_instance" "main" {
   enable_iam_database_authentication = true
 
   # Enhanced Monitoring
-  enable_performance_insights = true
-  performance_insights_retention_period = 7
-
   monitoring_interval             = var.enable_enhanced_monitoring ? var.monitoring_interval : 0
   monitoring_role_arn            = var.enable_enhanced_monitoring ? aws_iam_role.rds_monitoring[0].arn : null
   enable_performance_insights     = true
+  performance_insights_retention_period = 7
   performance_insights_kms_key_id = var.enable_encryption ? aws_kms_key.rds[0].arn : null
+  parameter_group_name            = aws_db_parameter_group.main.name
 
   # Deletion protection
   deletion_protection = true
